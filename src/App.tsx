@@ -1,5 +1,4 @@
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import FileUpload from './components/FileUpload';
 
 function App() {
   const { signOut } = useAuthenticator();
@@ -7,10 +6,12 @@ function App() {
   return (
     <main>
       <h1>My App</h1>
-      <div className="content">
-        <h2>File Upload</h2>
-        <p>Upload files to your S3 bucket</p>
-        <FileUpload />
+      <div>
+        🥳 App successfully hosted.
+        <br />
+        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
+          Review next step of this tutorial.
+        </a>
       </div>
       <button onClick={signOut}>Sign out</button>
     </main>
