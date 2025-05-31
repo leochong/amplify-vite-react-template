@@ -7,16 +7,18 @@ import { useAIGeneration } from "./client";
 function App() {
   const { signOut } = useAuthenticator();
   const [description, setDescription] = React.useState("");
-  const [{ data, isLoading }, generateRecipe] = useAIGeneration("generateRecipe");
+  const [{ data, error, isLoading }, generateRecipe] = useAIGeneration("generateRecipe");
 
   const handleClick = async () => {
-    generateRecipe({ description });
+    if (description.trim()) {
+      generateRecipe({ description });
+    }
   };
 
   return (
     <main>
       <h1>My App</h1>
-      <Flex direction="column">
+      <Flex direction="column" gap="1rem">
         <div>
           <h2>File Upload</h2>
           <StorageManager
@@ -27,21 +29,27 @@ function App() {
           />
         </div>
         
-        <Flex direction="row">
+        <Flex direction="column" gap="1rem">
           <TextAreaField
             autoResize
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             label="Description"
+            placeholder="Enter a description for your recipe"
           />
-          <Button onClick={handleClick}>Generate recipe</Button>
+          <Button onClick={handleClick} isDisabled={!description.trim() || isLoading}>
+            Generate recipe
+          </Button>
         </Flex>
         
         {isLoading ? (
           <Loader variation="linear" />
-        ) : (
-          <>
-            <Text fontWeight="bold">{data?.name}</Text>
+        ) : error ? (
+          <Text color="red">{error.message || "An error occurred"}</Text>
+        ) : data ? (
+          <Flex direction="column" gap="1rem" padding="1rem" backgroundColor="rgba(0,0,0,0.05)">
+            <Text fontWeight="bold" fontSize="1.2rem">{data?.name}</Text>
+            <Text fontWeight="bold">Ingredients:</Text>
             <View as="ul">
               {data?.ingredients?.map((ingredient) => (
                 <View as="li" key={ingredient}>
@@ -49,9 +57,10 @@ function App() {
                 </View>
               ))}
             </View>
+            <Text fontWeight="bold">Instructions:</Text>
             <Text>{data?.instructions}</Text>
-          </>
-        )}
+          </Flex>
+        ) : null}
         
         <Button onClick={signOut}>Sign out</Button>
       </Flex>
