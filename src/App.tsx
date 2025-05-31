@@ -12,7 +12,7 @@ function App() {
         <h2>File Upload</h2>
         <StorageManager
           acceptedFileTypes={['image/*', 'application/pdf']}
-          accessLevel="public"
+          accessLevel="private"
           maxFileCount={5}
           isResumable
         />
