@@ -1,12 +1,10 @@
-import { defineFunction } from '@aws-amplify/backend';
+import { defineFunction, NodejsVersion } from '@aws-amplify/backend';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 export const chatFunction = defineFunction({
   name: 'chatFunction',
-  handler: 'index.handler',
-  runtime: 'nodejs18.x',
-  memorySize: 1024,
-  timeout: 30,
+  entry: './handler/index.ts',
+  runtime: NodejsVersion.NODEJS_18_X,
   permissions: [
     new PolicyStatement({
       actions: [
