@@ -1,6 +1,6 @@
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
-const bedrockClient = new BedrockRuntimeClient({ region: 'us-west-2' });
+const bedrockClient = new BedrockRuntimeClient({ region: 'us-east-1' });
 
 export const handler = async (event: any) => {
   try {
